@@ -14,19 +14,9 @@ datasource db {
 
 // Users
 model User{
-  name String
-  username String @id @unique
-  email String @unique
+  email String @id @unique
   password String
   myEvents Event[]
-}
-
-// Organisers
-model Organiser{
-  name String
-  userName String @id @unique
-  email String @unique
-  password String
 }
 
 // Events
@@ -34,7 +24,7 @@ model Event{
   E_id Int @id @default(autoincrement())
   title String
   description String
-  creator User @relation(fields: [userId], references: [username])
+  creator User @relation(fields: [userId], references: [email])
   userId String
   Resources EventResource[]
 }
@@ -43,7 +33,8 @@ model Event{
 model EventResource{
   R_id Int @id @default(autoincrement())
   resourceName String
-  eventUses Event @relation(fields: [eventId],references: [E_id])
+  resourcePrice Int
+  usedBy Event @relation(fields: [eventId],references: [E_id])
   eventId Int
 }
 
