@@ -1,6 +1,8 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { signUp, login } from "../controller/auth.controller";
-import { event } from "../controller/event.controller";
+import { addEvent } from "../controller/event.controller";
+import { setToken } from "../controller/auth.controller";
+import { verifyToken } from "../middleware/auth";
 
 const router = Router();
 
@@ -11,7 +13,7 @@ data:{
     password: password,
 }
 */
-router.post("/signup", signUp);
+router.post("/signup", signUp, setToken);
 
 /* this route is for login the registered user
 data:{
@@ -19,7 +21,7 @@ data:{
     password: password
 }
 */
-router.post("/login", login);
+router.post("/login", login, setToken);
 
 /*this route is to add event a event by user
 data:{
@@ -29,6 +31,11 @@ data:{
     description: 
 }
  */
-router.post("/event", login, event);
+router.post("/event", verifyToken, (req: Request, res: Response) => {
+  console.log(res.locals.currentUser);
+  return res.json({
+    message: "oh hi",
+  });
+});
 
 export default router;

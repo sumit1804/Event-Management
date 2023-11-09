@@ -14,7 +14,10 @@ datasource db {
 
 // Users
 model User{
-  email String @id @unique
+  id String @id @default(cuid())
+  email String @unique
+  name String 
+  mobileNum String @unique
   password String
   myEvents Event[]
 }

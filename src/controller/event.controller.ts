@@ -3,16 +3,16 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const event = async (
+export const addEvent = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { credential, title, description } = req.body;
+    const { id, title, description } = req.body;
     const event = await prisma.event.create({
       data: {
-        creator: credential,
+        creator: id,
         title: title,
         description: description,
       },
