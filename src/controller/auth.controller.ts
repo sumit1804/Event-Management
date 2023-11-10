@@ -67,10 +67,8 @@ export const signUp = async (
       },
     });
 
-    res.locals.user = userData;
-
     res.locals.user = {
-      id: userData!.id,
+      Uid: userData!.Uid,
       email: userData!.email,
       name: userData!.name,
       mobileNum: userData!.name,
@@ -110,10 +108,10 @@ export const login = async (
     }
 
     res.locals.user = {
-      id: user!.id,
+      Uid: user!.Uid,
       email: user!.email,
       name: user!.name,
-      mobileNum: user!.name,
+      mobileNum: user!.mobileNum,
     };
     return next();
   } catch (error) {

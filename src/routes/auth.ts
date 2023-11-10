@@ -1,8 +1,7 @@
 import { Router, Request, Response } from "express";
 import { signUp, login } from "../controller/auth.controller";
-import { addEvent } from "../controller/event.controller";
 import { setToken } from "../controller/auth.controller";
-import { verifyToken } from "../middleware/auth";
+import { verifyToken } from "../middleware/auth.middleware";
 
 const router = Router();
 
@@ -31,11 +30,4 @@ data:{
     description: 
 }
  */
-router.post("/event", verifyToken, (req: Request, res: Response) => {
-  console.log(res.locals.currentUser);
-  return res.json({
-    message: "oh hi",
-  });
-});
-
 export default router;

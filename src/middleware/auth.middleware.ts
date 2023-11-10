@@ -20,10 +20,10 @@ export const verifyToken = async (
 
     const userDetails = await prisma.user.findFirst({
       where: {
-        id: userId,
+        Uid: userId,
       },
       select: {
-        id: true,
+        Uid: true,
         name: true,
         email: true,
         mobileNum: true,
@@ -31,7 +31,7 @@ export const verifyToken = async (
     });
 
     res.locals.currentUser = {
-      id: userDetails!.id,
+      Uid: userDetails!.Uid,
       name: userDetails!.name,
       email: userDetails!.email,
       mobileNum: userDetails!.mobileNum,

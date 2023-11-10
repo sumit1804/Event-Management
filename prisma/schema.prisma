@@ -14,7 +14,7 @@ datasource db {
 
 // Users
 model User{
-  id String @id @default(cuid())
+  Uid String @id @default(cuid())
   email String @unique
   name String 
   mobileNum String @unique
@@ -24,20 +24,20 @@ model User{
 
 // Events
 model Event{
-  E_id Int @id @default(autoincrement())
+  Eid Int @id @default(autoincrement())
   title String
   description String
-  creator User @relation(fields: [userId], references: [email])
+  creator User @relation(fields: [userId], references: [Uid])
   userId String
   Resources EventResource[]
 }
 
 // Events Resources
 model EventResource{
-  R_id Int @id @default(autoincrement())
+  Rid Int @id @default(autoincrement())
   resourceName String
   resourcePrice Int
-  usedBy Event @relation(fields: [eventId],references: [E_id])
+  usedBy Event @relation(fields: [eventId],references: [Eid])
   eventId Int
 }
 
