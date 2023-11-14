@@ -25,7 +25,7 @@ export const addEvent = async (req: Request, res: Response) => {
   }
 };
 
-export const userEvents = async (req: Request, res: Response) => {
+export const allEvents = async (req: Request, res: Response) => {
   try {
     const { Uid } = await res.locals.currentUser;
     const allevent = await prisma.event.findMany({

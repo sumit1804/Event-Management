@@ -38,17 +38,17 @@ model Event{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
   userId String
-  creator Users @relation(fields: [userId], references: [Uid])
+  creator Users @relation(fields: [userId], references: [Uid], onDelete: Cascade)
   Resources EventResource[]
 }
 
 // Events Resources
 model EventResource{
   Rid Int @id @default(autoincrement())
-  resourceName String
+  resourceName String @unique
   resourcePrice Int
   eventId Int
-  usedBy Event @relation(fields: [eventId],references: [Eid])
+  usedBy Event @relation(fields: [eventId],references: [Eid], onDelete: Cascade)
 }
 
 

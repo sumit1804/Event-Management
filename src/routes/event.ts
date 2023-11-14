@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   addEvent,
   addResource,
-  userEvents,
+  allEvents,
 } from "../controller/event.controller";
 import { verifyToken } from "../middleware/auth.middleware";
 
@@ -17,7 +17,7 @@ const router = Router();
 router.post("/addEvent", verifyToken, addEvent);
 
 /* This route is for getting all events added by user */
-router.get("/myEvents", verifyToken, userEvents);
+router.get("/myEvents", verifyToken, allEvents);
 
 /* This route is for adding resources to a particular event of user
    {
