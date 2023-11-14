@@ -44,7 +44,7 @@ export const signUp = async (
         message: "password length should be more than 6",
       });
     }
-    let checkUser = await prisma.user.findFirst({
+    let checkUser = await prisma.users.findFirst({
       where: {
         email: email,
         mobileNum: mobileNum,
@@ -58,7 +58,7 @@ export const signUp = async (
     const salt = await bcrypt.genSalt(5);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    const userData = await prisma.user.create({
+    const userData = await prisma.users.create({
       data: {
         name: name,
         mobileNum: mobileNum,
@@ -89,7 +89,7 @@ export const login = async (
 ) => {
   try {
     const { email, password } = req.body;
-    let user = await prisma.user.findFirst({
+    let user = await prisma.users.findFirst({
       where: {
         email: email,
       },

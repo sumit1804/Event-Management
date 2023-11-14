@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   addEvent,
-  addResources,
+  addResource,
   userEvents,
 } from "../controller/event.controller";
 import { verifyToken } from "../middleware/auth.middleware";
@@ -26,6 +26,6 @@ router.get("/myEvents", verifyToken, userEvents);
         "resourceTitle":"resourceTitle"
    } 
 */
-router.get("/addResource", verifyToken, addResources);
+router.post("/addResource", verifyToken, addResource);
 
 export default router;

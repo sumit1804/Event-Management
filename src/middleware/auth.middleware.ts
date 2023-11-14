@@ -1,4 +1,4 @@
-import express, { Response, Request, NextFunction } from "express";
+import { Response, Request, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import Jwt from "jsonwebtoken";
 
@@ -18,7 +18,7 @@ export const verifyToken = async (
     const data: any = await Jwt.verify(accessToken, process.env.JWT_SECRET!);
     const userId = data.id;
 
-    const userDetails = await prisma.user.findFirst({
+    const userDetails = await prisma.users.findFirst({
       where: {
         Uid: userId,
       },

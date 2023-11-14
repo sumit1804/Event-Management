@@ -13,13 +13,21 @@ datasource db {
 // Modellint Our Database
 
 // Users
-model User{
+model Users{
   Uid String @id @default(cuid())
   email String @unique
   name String 
   mobileNum String @unique
   password String
+  role Role? @default(USER)
+  createdAt DateTime @default(now())
   myEvents Event[]
+}
+
+enum Role{
+  USER
+  ADMIN
+  ORGANISER
 }
 
 // Events
@@ -27,8 +35,10 @@ model Event{
   Eid Int @id @default(autoincrement())
   title String
   description String
-  creator User @relation(fields: [userId], references: [Uid])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
   userId String
+  creator Users @relation(fields: [userId], references: [Uid])
   Resources EventResource[]
 }
 
@@ -37,8 +47,8 @@ model EventResource{
   Rid Int @id @default(autoincrement())
   resourceName String
   resourcePrice Int
-  usedBy Event @relation(fields: [eventId],references: [Eid])
   eventId Int
+  usedBy Event @relation(fields: [eventId],references: [Eid])
 }
 
 

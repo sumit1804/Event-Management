@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { title } from "process";
 
 const prisma = new PrismaClient();
 
@@ -56,21 +55,33 @@ export const userEvents = async (req: Request, res: Response) => {
   }
 };
 
-export const addResources = async (req: Request, res: Response) => {
+export const addResource = async (req: Request, res: Response) => {
   try {
+    console.log("Hi from addResource");
     const { Eid, resourceName, resourcePrice } = req.body;
+    const eventss = await prisma.event.findFirst({
+      where: {
+        Eid: Eid,
+      },
+    });
 
-    const addResources = await prisma.eventResource.create({
+    const eventupdate = await prisma.event.update({
+      where: {
+        Eid: eventss.Eid,
+      },
       data: {
-        eventId: Eid,
-        resourceName: resourceName,
-        resourcePrice: resourcePrice,
+        Resources: {
+          create: {
+            resourceName: resourceName,
+            resourcePrice: resourcePrice,
+          },
+        },
       },
     });
     return res.status(200).json({
       message: "resource added successfully",
-      Name: `${resourceName}`,
-      Price: `${resourcePrice}`,
+      Name: resourceName,
+      Price: resourcePrice,
     });
   } catch (error) {
     console.log(error);
