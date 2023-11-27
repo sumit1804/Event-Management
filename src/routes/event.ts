@@ -5,6 +5,7 @@ import {
   allEvents,
 } from "../controller/event.controller";
 import { verifyToken } from "../middleware/auth.middleware";
+import { HandleDbError } from "../controller/error.controller";
 
 const router = Router();
 
@@ -26,6 +27,6 @@ router.get("/myEvents", verifyToken, allEvents);
         "resourceTitle":"resourceTitle"
    } 
 */
-router.post("/addResource", verifyToken, addResource);
+router.post("/addResource", verifyToken, addResource, HandleDbError);
 
 export default router;

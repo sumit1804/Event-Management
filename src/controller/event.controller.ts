@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -55,11 +55,15 @@ export const allEvents = async (req: Request, res: Response) => {
   }
 };
 
-export const addResource = async (req: Request, res: Response) => {
+export const addResource = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     console.log("Hi from addResource");
     const { Eid, resourceName, resourcePrice } = req.body;
-    const eventss = await prisma.event.findFirst({
+    const events = await prisma.event.findFirst({
       where: {
         Eid: Eid,
       },
@@ -67,7 +71,7 @@ export const addResource = async (req: Request, res: Response) => {
 
     const eventupdate = await prisma.event.update({
       where: {
-        Eid: eventss.Eid,
+        Eid: events.Eid,
       },
       data: {
         Resources: {
@@ -84,9 +88,11 @@ export const addResource = async (req: Request, res: Response) => {
       Price: resourcePrice,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(200).json({
-      message: "internal server error",
-    });
+    console.log(error.code);
+    res.locals.error = {
+      code: error.code,
+      target: error.meta.target,
+    };
+    return next();
   }
 };

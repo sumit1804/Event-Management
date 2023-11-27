@@ -16,6 +16,7 @@ https://github.com/sumit1804/Event-Management.git
    cd event-management
 
 3. Install dependencies
+   using node version 16.19.0
    npm install
 
 ## Usage
