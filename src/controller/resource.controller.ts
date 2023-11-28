@@ -85,7 +85,12 @@ export const getResource = async (req: Request, res: Response) => {
     where: {
       Rid: Rid,
     },
-    include: {},
+    select: {
+      eventId:true,
+      Rid:true,
+      resourceName:true,
+      resourcePrice:true
+    },
   });
   return res.status(200).json({
     success: true,
@@ -93,6 +98,6 @@ export const getResource = async (req: Request, res: Response) => {
     Rid: resource.Rid,
     resourceName: resource.resourceName,
     resourcePrice: resource.resourcePrice,
-    message: "resource found",
+    message: "resource found successfully",
   });
 };
