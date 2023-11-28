@@ -16,6 +16,9 @@ export const addEvent = async (req: Request, res: Response) => {
     });
     console.log(event);
     return res.status(200).json({
+      Eid: event.Eid,
+      title: event.title,
+      description: event.description,
       message: "event added successfully",
     });
   } catch (error) {
@@ -55,44 +58,44 @@ export const allEvents = async (req: Request, res: Response) => {
   }
 };
 
-export const addResource = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const removeEvent = async (req: Request, res: Response) => {
   try {
-    console.log("Hi from addResource");
-    const { Eid, resourceName, resourcePrice } = req.body;
-    const events = await prisma.event.findFirst({
-      where: {
-        Eid: Eid,
+    console.log("hi from removeEvent");
+    const { eventId } = req.body;
+    const checkEvent = await prisma.event.findFirst({
+      where:{
+        Eid:eventId
+      },
+      select: {
+        Eid: true,
+        title:true,
+        description:true
       },
     });
-
-    const eventupdate = await prisma.event.update({
-      where: {
-        Eid: events.Eid,
-      },
-      data: {
-        Resources: {
-          create: {
-            resourceName: resourceName,
-            resourcePrice: resourcePrice,
-          },
+    if (checkEvent.Eid === eventId) {
+      const removeEvent = await prisma.event.delete({
+        where: {
+          Eid: eventId,
         },
-      },
-    });
+      });
+    } else {
+      console.log("no such event present");
+      return res.status(404).json({
+        message: "no such event present",
+      });
+    }
     return res.status(200).json({
-      message: "resource added successfully",
-      Name: resourceName,
-      Price: resourcePrice,
+      success: true,
+      eventId:checkEvent.Eid,
+      title:checkEvent.title,
+      description:checkEvent.description,
+      message: "event deleted successfully",
     });
   } catch (error) {
-    console.log(error.code);
-    res.locals.error = {
-      code: error.code,
-      target: error.meta.target,
-    };
-    return next();
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
